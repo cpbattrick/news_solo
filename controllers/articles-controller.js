@@ -11,16 +11,23 @@ const getAllArticles = (req, res, next) => {
     .then(articles => {
       res.status(200).send({ articles });
     })
-    .catch(next);
+    .catch(err => {
+      next(err);
+    });
 };
 
 const getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticleById(article_id)
     .then(article => {
-      res.status(200).send({ article });
+      if (!article.length)
+        return Promise.reject({ msg: "Article does not exist" });
+      else res.status(200).send({ article });
     })
-    .catch(next);
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 };
 
 const patchArticle = (req, res, next) => {

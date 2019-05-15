@@ -22,6 +22,25 @@ describe.only("/", () => {
           expect(body.ok).to.equal(true);
         });
     });
+
+    describe("Status 404 - Not Found", () => {
+      it("/ - responds from incorrect endpoint with message", () => {
+        return request
+          .get("/incorrect_route")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Route Not Found");
+          });
+      });
+      it("/ - responds from incorrect endpoint with message", () => {
+        return request
+          .get("/api/incorrect_route")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Route Not Found");
+          });
+      });
+    });
   });
 
   describe("The Topics endpoint - /api/topics", () => {
@@ -145,6 +164,26 @@ describe.only("/", () => {
             });
         });
       });
+
+      describe.only("400 Bad Request", () => {
+        it("/?sort_by - should return 400 and error message when passed invalid query", () => {
+          return request
+            .get("/api/articles/?sort_by=invalid_query")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
+
+        it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
+          return request
+            .get("/api/articles/1000000")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
+      });
     });
 
     describe("Patch Request", () => {
@@ -202,7 +241,7 @@ describe.only("/", () => {
     });
   });
 
-  describe.only("Users Endpoint - /api/users", () => {
+  describe("Users Endpoint - /api/users", () => {
     describe("GET Request", () => {
       describe("Status 200 - OK", () => {
         it("/:username - responds with user with given username", () => {
