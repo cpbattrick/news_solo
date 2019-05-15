@@ -133,7 +133,7 @@ describe.only("/", () => {
             .get("/api/articles/1/comments")
             .expect(200)
             .then(({ body }) => {
-              expect(body.comments[0].comment_id).to.equal(2);
+              expect(body.comments[0]).to.haveOwnProperty("comment_id");
             });
         });
 
@@ -177,10 +177,19 @@ describe.only("/", () => {
 
         it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
           return request
-            .get("/api/articles/1000000")
+            .get("/api/articles/abc")
             .expect(400)
             .then(({ body }) => {
               expect(body.msg).to.equal("Bad Request");
+            });
+        });
+
+        it("/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+          return request
+            .get("/api/articles/1000000")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Article does not exist");
             });
         });
       });

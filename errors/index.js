@@ -8,9 +8,15 @@ exports.methodNotAllowed = (req, res) => {
 
 exports.handle400 = (err, req, res, next) => {
   const codes = {
-    42703: "Bad Request"
+    "42703": "Bad Request",
+    "22P02": "Bad Request"
   };
   if (codes[err.code]) res.status(400).send({ msg: codes[err.code] });
+  else next(err);
+};
+
+exports.handle404 = (err, req, res, next) => {
+  if (err.code === 404) res.status(404).send({ msg: err.msg });
   else next(err);
 };
 

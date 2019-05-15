@@ -21,11 +21,10 @@ const getArticleById = (req, res, next) => {
   fetchArticleById(article_id)
     .then(article => {
       if (!article.length)
-        return Promise.reject({ msg: "Article does not exist" });
+        return Promise.reject({ code: 404, msg: "Article does not exist" });
       else res.status(200).send({ article });
     })
     .catch(err => {
-      console.log(err);
       next(err);
     });
 };
