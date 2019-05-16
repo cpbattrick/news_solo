@@ -236,9 +236,18 @@ describe.only("/", () => {
       });
 
       describe("400 Bad Request", () => {
-        it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
+        it("api/articles/:article_id - should return 400 and error message when passed invalid parameter", () => {
           return request
             .patch("/api/articles/abc")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
+
+        it("api/comments/:comments_id - should return 400 and error message when passed invalid parameter", () => {
+          return request
+            .patch("/api/comments/abc")
             .expect(400)
             .then(({ body }) => {
               expect(body.msg).to.equal("Bad Request");
@@ -247,7 +256,7 @@ describe.only("/", () => {
       });
 
       describe("404 Error", () => {
-        it("/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+        it("api/articles/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
           return request
             .patch("/api/articles/1000000")
             .expect(404)
@@ -256,46 +265,55 @@ describe.only("/", () => {
             });
         });
       });
-    });
 
-    describe("POST Request", () => {
-      describe("Status 201 - Created", () => {
-        it("/api/articles/:article_id/comments  Posts a new comment", () => {
-          const newComment = {
-            username: "rogersop",
-            body: "dave likes ham"
-          };
-          return request
-            .post("/api/articles/1/comments")
-            .send(newComment)
-            .expect(201)
-            .then(({ body }) => {
-              expect(body[0].author).to.equal("rogersop");
-            });
-        });
-      });
-    });
-
-    describe("Delete Request", () => {
-      describe('"Status 204 - No Content', () => {
-        it("/api/comments/:comment_id Deletes a comment in the database when given comment id", () => {
-          return request.delete("/api/comments/1").expect(204);
-        });
+      it("api/comments/:comment_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+        return request
+          .patch("/api/comments/1000000")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Comment does not exist");
+          });
       });
     });
   });
 
-  describe("Users Endpoint - /api/users", () => {
-    describe("GET Request", () => {
-      describe("Status 200 - OK", () => {
-        it("/:username - responds with user with given username", () => {
-          return request
-            .get("/api/users/lurker")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body.user[0].username).to.equal("lurker");
-            });
-        });
+  describe("POST Request", () => {
+    describe("Status 201 - Created", () => {
+      it("/api/articles/:article_id/comments  Posts a new comment", () => {
+        const newComment = {
+          username: "rogersop",
+          body: "dave likes ham"
+        };
+        return request
+          .post("/api/articles/1/comments")
+          .send(newComment)
+          .expect(201)
+          .then(({ body }) => {
+            expect(body[0].author).to.equal("rogersop");
+          });
+      });
+    });
+  });
+
+  describe("Delete Request", () => {
+    describe('"Status 204 - No Content', () => {
+      it("/api/comments/:comment_id Deletes a comment in the database when given comment id", () => {
+        return request.delete("/api/comments/1").expect(204);
+      });
+    });
+  });
+});
+
+describe("Users Endpoint - /api/users", () => {
+  describe("GET Request", () => {
+    describe("Status 200 - OK", () => {
+      it("/:username - responds with user with given username", () => {
+        return request
+          .get("/api/users/lurker")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.user[0].username).to.equal("lurker");
+          });
       });
     });
   });
