@@ -16,7 +16,11 @@ exports.handle400 = (err, req, res, next) => {
 };
 
 exports.handle404 = (err, req, res, next) => {
-  if (err.code === 404) res.status(404).send({ msg: err.msg });
+  const codes = {
+    "23503": "Article does not exist"
+  };
+  if (codes[err.code]) res.status(404).send({ msg: codes[err.code] });
+  else if (err.code === 404) res.status(404).send({ msg: err.msg });
   else next(err);
 };
 

@@ -255,7 +255,7 @@ describe.only("/", () => {
         });
       });
 
-      describe("404 Error", () => {
+      describe("Status 404 Error", () => {
         it("api/articles/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
           return request
             .patch("/api/articles/1000000")
@@ -306,6 +306,22 @@ describe.only("/", () => {
           .expect(400)
           .then(({ body }) => {
             expect(body.msg).to.equal("Bad Request");
+          });
+      });
+    });
+
+    describe("Status 404 Error", () => {
+      it("api/articles/:article_id/comments - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+        const newComment = {
+          username: "rogersop",
+          body: "dave likes ham"
+        };
+        return request
+          .post("/api/articles/1000000/comments")
+          .send(newComment)
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Article does not exist");
           });
       });
     });

@@ -57,6 +57,7 @@ const postNewComment = (req, res, next) => {
   delete alteredComment.username;
   addNewComment(alteredComment)
     .then(newComment => {
+      console.log(newComment);
       res.status(201).send(newComment);
     })
     .catch(next);
