@@ -7,7 +7,19 @@ const usersRouter = require("./usersRouter");
 
 apiRouter
   .route("/")
-  .get((req, res) => res.send({ ok: true }))
+  .get((req, res) =>
+    res.send({
+      endpoints: [
+        "/topics",
+        "/articles",
+        "/comments",
+        "/users/:username",
+        "/articles/article_id",
+        "/articles/article_id/comments",
+        "/comments/:comment_id"
+      ]
+    })
+  )
   .all(methodNotAllowed);
 
 apiRouter.use("/topics", topicsRouter);
