@@ -33,6 +33,7 @@ const patchArticle = (req, res, next) => {
   const { params, body } = req;
   updateArticle(params, body)
     .then(updatedArticle => {
+      console.log(updatedArticle);
       if (!updatedArticle.length)
         return Promise.reject({ code: 404, msg: "Article does not exist" });
       else res.status(200).send(updatedArticle);

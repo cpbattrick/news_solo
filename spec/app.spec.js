@@ -282,6 +282,28 @@ describe.only("/", () => {
               expect(body.msg).to.equal("Bad Request");
             });
         });
+
+        it("api/articles/:article_id - should return 400 and error message when passed invalid body", () => {
+          const newVote = { inc_vote: "abc" };
+          return request
+            .patch("/api/articles/1")
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
+
+        it("api/articles/:article_id - should return 400 and error message when passed invalid body", () => {
+          const newVote = { inc_vote: "abc" };
+          return request
+            .patch("/api/comments/1")
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
       });
 
       describe("Status 404 Error", () => {
