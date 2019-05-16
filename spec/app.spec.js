@@ -293,6 +293,22 @@ describe.only("/", () => {
           });
       });
     });
+
+    describe('"Status 400 - Bad Request"', () => {
+      it("api/articles/:article_id/comments - should return 400 and error message when passed invalid parameter", () => {
+        const newComment = {
+          username: "rogersop",
+          body: "dave likes ham"
+        };
+        return request
+          .post("/api/articles/abc/comments")
+          .send(newComment)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Bad Request");
+          });
+      });
+    });
   });
 
   describe("Delete Request", () => {
