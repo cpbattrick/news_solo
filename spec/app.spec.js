@@ -345,17 +345,28 @@ describe.only("/", () => {
         });
     });
   });
-});
 
-describe("Users Endpoint - /api/users", () => {
-  describe("GET Request", () => {
-    describe("Status 200 - OK", () => {
-      it("/:username - responds with user with given username", () => {
+  describe("Users Endpoint - /api/users", () => {
+    describe("GET Request", () => {
+      describe("Status 200 - OK", () => {
+        it("/:username - responds with user with given username", () => {
+          return request
+            .get("/api/users/lurker")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.user[0].username).to.equal("lurker");
+            });
+        });
+      });
+    });
+
+    describe("Status - 404 Route not found", () => {
+      it("api/users/:username - should return 400 and error message when passed invalid parameter", () => {
         return request
-          .get("/api/users/lurker")
-          .expect(200)
+          .get("/api/users/non_existant_user")
+          .expect(404)
           .then(({ body }) => {
-            expect(body.user[0].username).to.equal("lurker");
+            expect(body.msg).to.equal("User does not exist");
           });
       });
     });
