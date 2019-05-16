@@ -186,15 +186,6 @@ describe.only("/", () => {
             });
         });
 
-        it("/?sort_by - should return 400 and error message when passed invalid query", () => {
-          return request
-            .get("/api/articles/?order=invalid_query")
-            .expect(400)
-            .then(({ body }) => {
-              expect(body.msg).to.equal("Bad Request");
-            });
-        });
-
         it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
           return request
             .get("/api/articles/abc")
@@ -240,6 +231,17 @@ describe.only("/", () => {
             .expect(200)
             .then(({ body }) => {
               expect(body[0].votes).to.equal(26);
+            });
+        });
+      });
+
+      describe.only("400 Bad Request", () => {
+        it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
+          return request
+            .patch("/api/articles/abc")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
             });
         });
       });
