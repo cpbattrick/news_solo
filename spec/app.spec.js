@@ -235,13 +235,24 @@ describe.only("/", () => {
         });
       });
 
-      describe.only("400 Bad Request", () => {
+      describe("400 Bad Request", () => {
         it("/:article_id - should return 400 and error message when passed invalid parameter", () => {
           return request
             .patch("/api/articles/abc")
             .expect(400)
             .then(({ body }) => {
               expect(body.msg).to.equal("Bad Request");
+            });
+        });
+      });
+
+      describe("404 Error", () => {
+        it("/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+          return request
+            .patch("/api/articles/1000000")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Article does not exist");
             });
         });
       });
