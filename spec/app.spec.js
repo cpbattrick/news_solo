@@ -334,6 +334,17 @@ describe.only("/", () => {
       });
     });
   });
+
+  describe("Status - 400 Bad Request", () => {
+    it("api/comments/:comment_id - should return 400 and error message when passed invalid parameter", () => {
+      return request
+        .delete("/api/comments/abc")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Bad Request");
+        });
+    });
+  });
 });
 
 describe("Users Endpoint - /api/users", () => {
