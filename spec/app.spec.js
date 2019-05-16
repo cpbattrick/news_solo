@@ -223,6 +223,24 @@ describe.only("/", () => {
               expect(body.msg).to.equal("Article does not exist");
             });
         });
+
+        it("/:article_id - should return 404 and error message when passed a non-existant topic query", () => {
+          return request
+            .get("/api/articles?topic=not-a-topic")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad query");
+            });
+        });
+
+        it("/:article_id - should return 404 and error message when passed a non-existant username query", () => {
+          return request
+            .get("/api/articles?username=not-an-author")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad query");
+            });
+        });
       });
 
       describe("Status 405 - Method not allowed", () => {

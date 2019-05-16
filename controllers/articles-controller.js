@@ -9,7 +9,10 @@ const {
 const getAllArticles = (req, res, next) => {
   fetchAllArticles(req.query)
     .then(articles => {
-      res.status(200).send({ articles });
+      console.log(articles);
+      if (!articles.length)
+        return Promise.reject({ code: 404, msg: "Bad query" });
+      else res.status(200).send({ articles });
     })
     .catch(err => {
       next(err);

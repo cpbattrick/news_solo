@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "/topics": {
+      "GET": "Responds with an array of topics"
+    }
+  }
+}
