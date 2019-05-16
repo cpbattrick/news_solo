@@ -67,6 +67,15 @@ describe.only("/", () => {
         });
       });
     });
+
+    describe("Status 405 - Method not allowed", () => {
+      it("/ - responds from incorrect method with message", () => {
+        return request
+          .put("/api/topics")
+          .expect(405)
+          .then(({ body }) => expect(body.msg).to.equal("Method Not Allowed"));
+      });
+    });
   });
 
   describe("The Articles endpoint - /api/articles", () => {
@@ -204,6 +213,26 @@ describe.only("/", () => {
             .then(({ body }) => {
               expect(body.msg).to.equal("Article does not exist");
             });
+        });
+      });
+
+      describe("Status 405 - Method not allowed", () => {
+        it("/api/articles - responds with incorrect method with message", () => {
+          return request
+            .put("/api/articles")
+            .expect(405)
+            .then(({ body }) =>
+              expect(body.msg).to.equal("Method Not Allowed")
+            );
+        });
+
+        it("/api/comments/comment_id - responds with incorrect method with message", () => {
+          return request
+            .put("/api/comments/1")
+            .expect(405)
+            .then(({ body }) =>
+              expect(body.msg).to.equal("Method Not Allowed")
+            );
         });
       });
     });
@@ -368,6 +397,15 @@ describe.only("/", () => {
           .then(({ body }) => {
             expect(body.msg).to.equal("User does not exist");
           });
+      });
+    });
+
+    describe("Status 405 - Method Not Allowed", () => {
+      it("/ - responds from incorrect method with message", () => {
+        return request
+          .put("/api/users/lurker")
+          .expect(405)
+          .then(({ body }) => expect(body.msg).to.equal("Method Not Allowed"));
       });
     });
   });
