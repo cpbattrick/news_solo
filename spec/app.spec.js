@@ -55,6 +55,17 @@ describe.only("/", () => {
             });
         });
       });
+
+      describe("Status 404 - Not Found", () => {
+        it("/ - responds from incorrect endpoint with message", () => {
+          return request
+            .get("/api/topics/incorrect_route")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Route Not Found");
+            });
+        });
+      });
     });
   });
 
@@ -165,10 +176,19 @@ describe.only("/", () => {
         });
       });
 
-      describe.only("400 Bad Request", () => {
+      describe("400 Bad Request", () => {
         it("/?sort_by - should return 400 and error message when passed invalid query", () => {
           return request
             .get("/api/articles/?sort_by=invalid_query")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Bad Request");
+            });
+        });
+
+        it("/?sort_by - should return 400 and error message when passed invalid query", () => {
+          return request
+            .get("/api/articles/?order=invalid_query")
             .expect(400)
             .then(({ body }) => {
               expect(body.msg).to.equal("Bad Request");
@@ -183,7 +203,9 @@ describe.only("/", () => {
               expect(body.msg).to.equal("Bad Request");
             });
         });
+      });
 
+      describe("404 Error", () => {
         it("/:article_id - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
           return request
             .get("/api/articles/1000000")
