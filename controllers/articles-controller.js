@@ -22,10 +22,11 @@ const getAllArticles = (req, res, next) => {
 const getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticleById(article_id)
-    .then(article => {
-      if (!article.length)
+    .then(articleArray => {
+      const article = articleArray[0];
+      if (!articleArray.length)
         return Promise.reject({ code: 404, msg: "Article does not exist" });
-      else res.status(200).send(article);
+      else res.status(200).send({ article });
     })
     .catch(err => {
       next(err);

@@ -144,7 +144,7 @@ describe.only("/", () => {
             .get("/api/articles/1")
             .expect(200)
             .then(({ body }) => {
-              expect(body[0].article_id).to.equal(1);
+              expect(body.article.article_id).to.equal(1);
             });
         });
 
