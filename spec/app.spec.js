@@ -298,6 +298,17 @@ describe.only("/", () => {
               expect(body.comment.votes).to.equal(26);
             });
         });
+
+        it("/api/comments/:comment_id Returns an unaltered comment when sent a body with out an inc_votes key", () => {
+          const newVote = {};
+          return request
+            .patch("/api/comments/1/")
+            .send(newVote)
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comment.votes).to.equal(17);
+            });
+        });
       });
 
       describe("400 Bad Request", () => {
@@ -330,7 +341,7 @@ describe.only("/", () => {
             });
         });
 
-        it("api/articles/:article_id - should return 400 and error message when passed invalid body", () => {
+        it("api/comments/:comment_id - should return 400 and error message when passed invalid inc_votes value", () => {
           const newVote = { inc_votes: "abc" };
           return request
             .patch("/api/comments/1")
