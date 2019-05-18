@@ -295,7 +295,7 @@ describe.only("/", () => {
             .send(newVote)
             .expect(200)
             .then(({ body }) => {
-              expect(body[0].votes).to.equal(26);
+              expect(body.comment.votes).to.equal(26);
             });
         });
       });

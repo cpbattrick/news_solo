@@ -4,9 +4,10 @@ const patchComment = (req, res, next) => {
   const { params, body } = req;
   updateComment(params, body)
     .then(updatedComment => {
+      const comment = updatedComment[0];
       if (!updatedComment.length)
         return Promise.reject({ code: 404, msg: "Comment does not exist" });
-      else res.status(200).send(updatedComment);
+      else res.status(200).send({ comment });
     })
     .catch(next);
 };
