@@ -395,6 +395,19 @@ describe.only("/", () => {
             expect(body.msg).to.equal("Bad Request");
           });
       });
+
+      it("api/articles/:article_id/comments - should return 400 and error message when rquest does not conatin all the required keys", () => {
+        const newComment = {
+          username: "rogersop"
+        };
+        return request
+          .post("/api/articles/1/comments")
+          .send(newComment)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Bad Request, incomplete request object");
+          });
+      });
     });
 
     describe("Status 404 Error", () => {

@@ -9,7 +9,8 @@ exports.methodNotAllowed = (req, res) => {
 exports.handle400 = (err, req, res, next) => {
   const codes = {
     "42703": "Bad Request",
-    "22P02": "Bad Request"
+    "22P02": "Bad Request",
+    "23502": "Bad Request, incomplete request object"
   };
   if (codes[err.code]) res.status(400).send({ msg: codes[err.code] });
   else next(err);
