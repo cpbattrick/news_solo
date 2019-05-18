@@ -267,20 +267,20 @@ describe.only("/", () => {
     describe("Patch Request", () => {
       describe("Status 200 - OK", () => {
         it("/api/articles/:article_id Updates an article in the database when given an article id", () => {
-          const inc_vote = 10;
-          const newVote = { inc_vote };
+          const inc_votes = 10;
+          const newVote = { inc_votes };
           return request
             .patch("/api/articles/1/")
             .send(newVote)
             .expect(200)
             .then(({ body }) => {
-              expect(body[0].votes).to.equal(110);
+              expect(body.updatedArticle.votes).to.equal(110);
             });
         });
 
         it("/api/comments/:comment_id Updates a comment in the database when given a comment id", () => {
-          const inc_vote = 10;
-          const newVote = { inc_vote };
+          const inc_votes = 10;
+          const newVote = { inc_votes };
           return request
             .patch("/api/comments/1/")
             .send(newVote)
@@ -311,7 +311,7 @@ describe.only("/", () => {
         });
 
         it("api/articles/:article_id - should return 400 and error message when passed invalid body", () => {
-          const newVote = { inc_vote: "abc" };
+          const newVote = { inc_votes: "abc" };
           return request
             .patch("/api/articles/1")
             .send(newVote)
@@ -322,7 +322,7 @@ describe.only("/", () => {
         });
 
         it("api/articles/:article_id - should return 400 and error message when passed invalid body", () => {
-          const newVote = { inc_vote: "abc" };
+          const newVote = { inc_votes: "abc" };
           return request
             .patch("/api/comments/1")
             .send(newVote)

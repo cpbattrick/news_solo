@@ -36,10 +36,11 @@ const getArticleById = (req, res, next) => {
 const patchArticle = (req, res, next) => {
   const { params, body } = req;
   updateArticle(params, body)
-    .then(updatedArticle => {
-      if (!updatedArticle.length)
+    .then(updatedArticleArray => {
+      const updatedArticle = updatedArticleArray[0];
+      if (!updatedArticleArray.length)
         return Promise.reject({ code: 404, msg: "Article does not exist" });
-      else res.status(200).send(updatedArticle);
+      else res.status(200).send({ updatedArticle });
     })
     .catch(next);
 };

@@ -41,7 +41,7 @@ const fetchArticleById = article_id => {
 const updateArticle = (id, newValue) => {
   return connection("articles")
     .where("article_id", "=", id.article_id)
-    .increment("votes", newValue.inc_vote)
+    .increment("votes", newValue.inc_votes)
     .returning("*");
 };
 
