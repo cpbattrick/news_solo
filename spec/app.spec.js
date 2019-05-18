@@ -153,7 +153,7 @@ describe.only("/", () => {
             .get("/api/articles/1/comments")
             .expect(200)
             .then(({ body }) => {
-              expect(body[0]).to.haveOwnProperty("comment_id");
+              expect(body.comments[0]).to.haveOwnProperty("comment_id");
             });
         });
 
@@ -162,7 +162,7 @@ describe.only("/", () => {
             .get("/api/articles/2/comments")
             .expect(200)
             .then(({ body }) => {
-              expect(body).to.eql([]);
+              expect(body.comments).to.eql([]);
             });
         });
 
@@ -171,7 +171,7 @@ describe.only("/", () => {
             .get("/api/articles/1/comments")
             .expect(200)
             .then(({ body }) => {
-              expect(body).to.be.descendingBy("created_at");
+              expect(body.comments).to.be.descendingBy("created_at");
             });
         });
 
@@ -180,7 +180,7 @@ describe.only("/", () => {
             .get("/api/articles/1/comments?sort_by=comment_id")
             .expect(200)
             .then(({ body }) => {
-              expect(body).to.be.descendingBy("comment_id");
+              expect(body.comments).to.be.descendingBy("comment_id");
             });
         });
 
@@ -189,7 +189,7 @@ describe.only("/", () => {
             .get("/api/articles/1/comments?order=asc")
             .expect(200)
             .then(({ body }) => {
-              expect(body).to.be.ascendingBy("created_at");
+              expect(body.comments).to.be.ascendingBy("created_at");
             });
         });
       });
