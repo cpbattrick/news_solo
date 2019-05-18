@@ -73,8 +73,8 @@ const postNewComment = (req, res, next) => {
   alteredComment.author = req.body.username;
   delete alteredComment.username;
   addNewComment(alteredComment)
-    .then(newComment => {
-      res.status(201).send(newComment);
+    .then(([comment]) => {
+      res.status(201).send({ comment });
     })
     .catch(next);
 };

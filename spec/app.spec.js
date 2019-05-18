@@ -376,7 +376,7 @@ describe.only("/", () => {
           .send(newComment)
           .expect(201)
           .then(({ body }) => {
-            expect(body[0].author).to.equal("rogersop");
+            expect(body.comment.author).to.equal("rogersop");
           });
       });
     });
