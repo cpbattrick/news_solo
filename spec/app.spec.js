@@ -224,6 +224,15 @@ describe.only("/", () => {
             });
         });
 
+        it("/:article_id/comments - should return 404 and error message when passed a valid parameter with no corresponding article", () => {
+          return request
+            .get("/api/articles/1000000/comments")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Article does not exist");
+            });
+        });
+
         it("/:article_id - should return 404 and error message when passed a non-existant topic query", () => {
           return request
             .get("/api/articles?topic=not-a-topic")

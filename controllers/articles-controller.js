@@ -1,4 +1,5 @@
 const {
+  articleCheck,
   addNewComment,
   fetchAllArticles,
   fetchArticleById,
@@ -47,11 +48,22 @@ const patchArticle = (req, res, next) => {
 
 const getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  fetchCommentsByArticleId(article_id, req.query)
+  Promise.all([articleCheck(article_id)])
+    .then(([article]) => {
+      if (!article.length)
+        return Promise.reject({ code: 404, msg: "Article does not exist" });
+      else return fetchCommentsByArticleId(article_id, req.query);
+    })
     .then(comments => {
       res.status(200).send({ comments });
     })
     .catch(next);
+
+  // fetchCommentsByArticleId(article_id, req.query)
+  //   .then(comments => {
+  //     res.status(200).send({ comments });
+  //   })
+  //   .catch(next);
 };
 
 const postNewComment = (req, res, next) => {

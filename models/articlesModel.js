@@ -58,7 +58,14 @@ const addNewComment = newComment => {
     .returning("*");
 };
 
+const articleCheck = id => {
+  return connection("articles")
+    .select("*")
+    .where("article_id", "=", id);
+};
+
 module.exports = {
+  articleCheck,
   addNewComment,
   fetchAllArticles,
   fetchArticleById,
