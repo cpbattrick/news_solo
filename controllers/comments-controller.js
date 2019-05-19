@@ -14,8 +14,10 @@ const patchComment = (req, res, next) => {
 
 const deleteComment = (req, res, next) => {
   removeComment(req.params)
-    .then(() => {
-      res.status(204).send();
+    .then(comment => {
+      if (!comment.length)
+        return Promise.reject({ code: 404, msg: "Comment does not exist" });
+      else res.status(204).send();
     })
     .catch(next);
 };

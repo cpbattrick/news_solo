@@ -455,6 +455,15 @@ describe.only("/", () => {
           expect(body.msg).to.equal("Bad Request");
         });
     });
+
+    it("api/comments/:comment_id - should return 404 and error message when passed a valid id that does not exist", () => {
+      return request
+        .delete("/api/comments/10000000")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Comment does not exist");
+        });
+    });
   });
 
   describe("Users Endpoint - /api/users", () => {
@@ -472,7 +481,7 @@ describe.only("/", () => {
     });
 
     describe("Status - 404 Route not found", () => {
-      it("api/users/:username - should return 400 and error message when passed invalid parameter", () => {
+      it("api/users/:username - should return 404 and error message when passed invalid parameter", () => {
         return request
           .get("/api/users/non_existant_user")
           .expect(404)

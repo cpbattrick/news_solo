@@ -10,7 +10,8 @@ const updateComment = (id, newValue) => {
 const removeComment = id => {
   return connection("comments")
     .where("comment_id", "=", id.comment_id)
-    .del();
+    .del()
+    .returning("*");
 };
 
 module.exports = { updateComment, removeComment };
