@@ -474,7 +474,7 @@ describe.only("/", () => {
             .get("/api/users/lurker")
             .expect(200)
             .then(({ body }) => {
-              expect(body.user[0].username).to.equal("lurker");
+              expect(body.user.username).to.equal("lurker");
             });
         });
       });

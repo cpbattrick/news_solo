@@ -3,10 +3,11 @@ const fetchUserByUsername = require("../models/usersModels");
 const getUserByUsername = (req, res, next) => {
   const { username } = req.params;
   fetchUserByUsername(username)
-    .then(user => {
-      if (!user.length)
+    .then(userArray => {
+      const user = userArray[0];
+      if (!userArray.length)
         return Promise.reject({ code: 404, msg: "User does not exist" });
-      res.status(200).send({ user });
+      else res.status(200).send({ user });
     })
     .catch(next);
 };
