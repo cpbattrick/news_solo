@@ -4,22 +4,13 @@ const topicsRouter = require("./topicsRouter");
 const articlesRouter = require("./articlesRouter");
 const commentsRouter = require("./commentsRouter");
 const usersRouter = require("./usersRouter");
+const endpoints = require("../endpoints.json");
 
 apiRouter
   .route("/")
-  .get((req, res) =>
-    res.send({
-      endpoints: [
-        "/topics",
-        "/articles",
-        "/comments",
-        "/users/:username",
-        "/articles/article_id",
-        "/articles/article_id/comments",
-        "/comments/:comment_id"
-      ]
-    })
-  )
+  .get((req, res) => {
+    res.send(endpoints);
+  })
   .all(methodNotAllowed);
 
 apiRouter.use("/topics", topicsRouter);

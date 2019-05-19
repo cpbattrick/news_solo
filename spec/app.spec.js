@@ -19,7 +19,7 @@ describe.only("/", () => {
         .get("/api")
         .expect(200)
         .then(({ body }) => {
-          expect(body.endpoints).to.be.an("array");
+          expect(body).to.haveOwnProperty("/api");
         });
     });
 

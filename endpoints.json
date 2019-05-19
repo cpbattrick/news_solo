@@ -2,6 +2,24 @@
   "/api": {
     "/topics": {
       "GET": "Responds with an array of topics"
+    },
+    "/articles": {
+      "GET": "Responds with an array of articles",
+      "/:article_id": {
+        "PATCH": "Responds with an object containiing the updated article",
+        "GET": "Responds with an object containing the article",
+        "/comments": {
+          "GET": "Responds with an array of comments associated with the article id",
+          "POST": "Responds with an object containing the posted comment"
+        }
+      }
+    },
+    "/comments/:comment_id": {
+      "PATCH": "Responds with an object containing the posted comment",
+      "DELETE": "Deletes the comment with the corresponding id"
+    },
+    "/users/:user_id": {
+      "GET": "Responds with an object containing the user information"
     }
   }
 }
