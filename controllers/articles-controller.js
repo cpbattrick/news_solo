@@ -1,4 +1,5 @@
 const {
+  fetchArticleCount,
   articleCheck,
   addNewComment,
   fetchAllArticles,
@@ -8,11 +9,14 @@ const {
 } = require("../models/articlesModel");
 
 const getAllArticles = (req, res, next) => {
-  fetchAllArticles(req.query)
-    .then(articles => {
-      if (!articles.length)
+  Promise.all([fetchArticleCount(), fetchAllArticles(req.query)])
+    .then(values => {
+      const articles = {};
+      articles.total_count = +values[0][0].count;
+      articles.articles = values[1];
+      if (!values[1].length)
         return Promise.reject({ code: 404, msg: "Bad query" });
-      else res.status(200).send({ articles });
+      else res.status(200).send(articles);
     })
     .catch(err => {
       next(err);

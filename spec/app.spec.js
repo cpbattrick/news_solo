@@ -177,6 +177,15 @@ describe.only("/", () => {
             });
         });
 
+        it("/ - should add a total count to the returned body", () => {
+          return request
+            .get("/api/articles")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.total_count).to.equal(12);
+            });
+        });
+
         it("/:article_id - responds with the article with provided id", () => {
           return request
             .get("/api/articles/1")

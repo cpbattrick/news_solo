@@ -17,7 +17,6 @@ const fetchAllArticles = ({ sort_by, order, username, topic, limit, p }) => {
     .orderBy(sort_by || "created_at", order || "desc")
     .limit(limit || 10)
     .offset((p - 1) * (limit || 10))
-
     .modify(query => {
       if (username) query.where("articles.author", username);
       if (topic) query.where("articles.topic", topic);
@@ -25,7 +24,7 @@ const fetchAllArticles = ({ sort_by, order, username, topic, limit, p }) => {
 };
 
 const fetchArticleCount = () => {
-  return connection.select("*").from("articles");
+  return connection("articles").count();
 };
 
 const fetchArticleById = article_id => {
