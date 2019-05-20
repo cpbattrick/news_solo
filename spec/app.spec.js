@@ -230,6 +230,33 @@ describe.only("/", () => {
               expect(body.comments).to.be.ascendingBy("created_at");
             });
         });
+
+        it("/:article_id/comments - an array of comments for the given article_id limited to 10 by default", () => {
+          return request
+            .get("/api/articles/1/comments")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comments.length).to.equal(10);
+            });
+        });
+
+        it("/:article_id/comments - an array of comments for the given article_id limited to the provided limit query", () => {
+          return request
+            .get("/api/articles/1/comments?limit=5")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comments.length).to.equal(5);
+            });
+        });
+
+        it("/ - should accept a query to determine which page to begin on", () => {
+          return request
+            .get("/api/articles/1/comments?p=2")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comments.length).to.equal(3);
+            });
+        });
       });
 
       describe("400 Bad Request", () => {

@@ -17,10 +17,15 @@ const fetchAllArticles = ({ sort_by, order, username, topic, limit, p }) => {
     .orderBy(sort_by || "created_at", order || "desc")
     .limit(limit || 10)
     .offset((p - 1) * (limit || 10))
+
     .modify(query => {
       if (username) query.where("articles.author", username);
       if (topic) query.where("articles.topic", topic);
     });
+};
+
+const fetchArticleCount = () => {
+  return connection.select("*").from("articles");
 };
 
 const fetchArticleById = article_id => {
@@ -47,11 +52,13 @@ const updateArticle = (id, newValue) => {
     .returning("*");
 };
 
-const fetchCommentsByArticleId = (id, { sort_by, order }) => {
+const fetchCommentsByArticleId = (id, { sort_by, order, limit, p }) => {
   return connection("comments")
     .select("comment_id", "votes", "created_at", "author", "body")
     .where("article_id", "=", id)
-    .orderBy(sort_by || "created_at", order || "desc");
+    .orderBy(sort_by || "created_at", order || "desc")
+    .limit(limit || 10)
+    .offset((p - 1) * (limit || 10));
 };
 
 const addNewComment = newComment => {
@@ -67,6 +74,7 @@ const articleCheck = id => {
 };
 
 module.exports = {
+  fetchArticleCount,
   articleCheck,
   addNewComment,
   fetchAllArticles,
