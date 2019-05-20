@@ -72,7 +72,14 @@ const articleCheck = id => {
     .where("article_id", "=", id);
 };
 
+const addNewArticle = newArticle => {
+  return connection("articles")
+    .insert(newArticle)
+    .returning("*");
+};
+
 module.exports = {
+  addNewArticle,
   fetchArticleCount,
   articleCheck,
   addNewComment,

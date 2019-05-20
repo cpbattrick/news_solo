@@ -451,6 +451,24 @@ describe.only("/", () => {
 
   describe("POST Request", () => {
     describe("Status 201 - Created", () => {
+      it.only("/api/articles  Posts a new article", () => {
+        const newArticle = {
+          title: "moomins are great",
+          body: "moomins are the best",
+          topic: "cats",
+          author: "rogersop"
+        };
+        return request
+          .post("/api/articles")
+          .send(newArticle)
+          .expect(201)
+          .then(({ body }) => {
+            expect(body.article.author).to.equal("rogersop");
+          });
+      });
+    });
+
+    describe("Status 201 - Created", () => {
       it("/api/articles/:article_id/comments  Posts a new comment", () => {
         const newComment = {
           username: "rogersop",
@@ -481,7 +499,7 @@ describe.only("/", () => {
           });
       });
 
-      it("api/articles/:article_id/comments - should return 400 and error message when rquest does not conatin all the required keys", () => {
+      it("api/articles/:article_id/comments - should return 400 and error message when request does not conatin all the required keys", () => {
         const newComment = {
           username: "rogersop"
         };

@@ -1,4 +1,5 @@
 const {
+  addNewArticle,
   fetchArticleCount,
   articleCheck,
   addNewComment,
@@ -76,7 +77,18 @@ const postNewComment = (req, res, next) => {
     .catch(next);
 };
 
+const postNewArticle = (req, res, next) => {
+  addNewArticle(req.body)
+    .then(([article]) => {
+      res.status(201).send({ article });
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
 module.exports = {
+  postNewArticle,
   postNewComment,
   getAllArticles,
   getArticleById,
