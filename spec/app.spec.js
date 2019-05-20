@@ -128,6 +128,17 @@ describe.only("/", () => {
             });
         });
 
+        it("/ - should return articles filtered by author when passed a username query", () => {
+          return request
+            .get("/api/articles?username=butter_bridge")
+            .expect(200)
+            .then(({ body }) => {
+              body.articles.forEach(article => {
+                expect(article.author).to.equal("butter_bridge");
+              });
+            });
+        });
+
         it("/ - should return articles filtered by topic when passed a topic query", () => {
           return request
             .get("/api/articles?topic=mitch")
@@ -136,6 +147,33 @@ describe.only("/", () => {
               body.articles.forEach(article => {
                 expect(article.topic).to.equal("mitch");
               });
+            });
+        });
+
+        it("/ - should return articles limited to ten items by default", () => {
+          return request
+            .get("/api/articles")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.articles.length).to.equal(10);
+            });
+        });
+
+        it("/ - should return articles limited to the given limit query", () => {
+          return request
+            .get("/api/articles?limit=5")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.articles.length).to.equal(5);
+            });
+        });
+
+        it("/ - should accept a query to determine which page to begin on", () => {
+          return request
+            .get("/api/articles?p=2")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.articles.length).to.equal(2);
             });
         });
 

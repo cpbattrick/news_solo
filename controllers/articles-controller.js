@@ -10,7 +10,6 @@ const {
 const getAllArticles = (req, res, next) => {
   fetchAllArticles(req.query)
     .then(articles => {
-      console.log(articles);
       if (!articles.length)
         return Promise.reject({ code: 404, msg: "Bad query" });
       else res.status(200).send({ articles });
@@ -58,12 +57,6 @@ const getCommentsByArticleId = (req, res, next) => {
       res.status(200).send({ comments });
     })
     .catch(next);
-
-  // fetchCommentsByArticleId(article_id, req.query)
-  //   .then(comments => {
-  //     res.status(200).send({ comments });
-  //   })
-  //   .catch(next);
 };
 
 const postNewComment = (req, res, next) => {

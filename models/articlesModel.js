@@ -1,6 +1,6 @@
 const connection = require("../db/connection");
 
-const fetchAllArticles = ({ sort_by, order, username, topic }) => {
+const fetchAllArticles = ({ sort_by, order, username, topic, limit, p }) => {
   return connection
     .select(
       "articles.author",
@@ -15,6 +15,8 @@ const fetchAllArticles = ({ sort_by, order, username, topic }) => {
     .leftJoin("comments", "articles.article_id", "comments.article_id")
     .groupBy("articles.article_id")
     .orderBy(sort_by || "created_at", order || "desc")
+    .limit(limit || 10)
+    .offset((p - 1) * (limit || 10))
     .modify(query => {
       if (username) query.where("articles.author", username);
       if (topic) query.where("articles.topic", topic);
