@@ -1,4 +1,5 @@
 const {
+  removeArticle,
   addNewArticle,
   fetchArticleCount,
   articleCheck,
@@ -87,7 +88,21 @@ const postNewArticle = (req, res, next) => {
     });
 };
 
+const deleteArticle = (req, res, next) => {
+  removeArticle(req.params)
+    .then(article => {
+      if (!article.length)
+        return Promise.reject({ code: 404, msg: "Article does not exist" });
+      else res.status(204).send();
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
+};
+
 module.exports = {
+  deleteArticle,
   postNewArticle,
   postNewComment,
   getAllArticles,

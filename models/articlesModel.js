@@ -78,7 +78,15 @@ const addNewArticle = newArticle => {
     .returning("*");
 };
 
+const removeArticle = id => {
+  return connection("articles")
+    .where("article_id", "=", id.article_id)
+    .del()
+    .returning("*");
+};
+
 module.exports = {
+  removeArticle,
   addNewArticle,
   fetchArticleCount,
   articleCheck,

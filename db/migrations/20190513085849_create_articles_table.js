@@ -14,6 +14,11 @@ exports.up = function(knex, Promise) {
       .references("users.username")
       .notNullable();
     articlesTable.timestamp("created_at").defaultTo(knex.fn.now());
+    articlesTable
+      .foreign("aticle_id")
+      .references("article_id")
+      .on("comments")
+      .onDelete("CASCADE");
   });
 };
 

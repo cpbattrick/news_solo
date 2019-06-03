@@ -451,7 +451,7 @@ describe.only("/", () => {
 
   describe("POST Request", () => {
     describe("Status 201 - Created", () => {
-      it.only("/api/articles  Posts a new article", () => {
+      it("/api/articles  Posts a new article", () => {
         const newArticle = {
           title: "moomins are great",
           body: "moomins are the best",
@@ -499,7 +499,20 @@ describe.only("/", () => {
           });
       });
 
-      it("api/articles/:article_id/comments - should return 400 and error message when request does not conatin all the required keys", () => {
+      it("api/articles - should return 400 and error message when request does not contain all the required keys", () => {
+        const newComment = {
+          author: "rogersop"
+        };
+        return request
+          .post("/api/articles")
+          .send(newComment)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Bad Request, incomplete request object");
+          });
+      });
+
+      it("api/articles/:article_id/comments - should return 400 and error message when request does not contain all the required keys", () => {
         const newComment = {
           username: "rogersop"
         };
@@ -532,9 +545,13 @@ describe.only("/", () => {
 
   describe("Delete Request", () => {
     describe('"Status 204 - No Content', () => {
-      it("/api/comments/:comment_id Deletes a comment in the database when given comment id", () => {
+      it("/api/comments/:comment_id - Deletes a comment in the database when given comment id", () => {
         return request.delete("/api/comments/1").expect(204);
       });
+    });
+
+    it.only("/api/articles/:article_id - Deletes an article in the database when given article id", () => {
+      return request.delete("/api/articles/1").expect(204);
     });
   });
 
