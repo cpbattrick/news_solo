@@ -7,7 +7,7 @@ const usersRouter = require("./usersRouter");
 const endpoints = require("../endpoints.json");
 const cors = require("cors");
 
-app.use(cors);
+app.use(cors());
 
 apiRouter
   .route("/")
