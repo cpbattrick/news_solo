@@ -35,7 +35,8 @@ const fetchArticleById = article_id => {
       "articles.article_id",
       "articles.topic",
       "articles.created_at",
-      "articles.votes"
+      "articles.votes",
+      "articles.body"
     )
     .count({ comment_count: "comments.article_id" })
     .from("articles")

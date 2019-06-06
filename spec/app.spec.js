@@ -550,9 +550,9 @@ describe.only("/", () => {
       });
     });
 
-    it.only("/api/articles/:article_id - Deletes an article in the database when given article id", () => {
-      return request.delete("/api/articles/1").expect(204);
-    });
+    // it("/api/articles/:article_id - Deletes an article in the database when given article id", () => {
+    //   return request.delete("/api/articles/1").expect(204);
+    // });
   });
 
   describe("Status - 400 Bad Request", () => {
