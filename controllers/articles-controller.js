@@ -11,7 +11,7 @@ const {
 } = require("../models/articlesModel");
 
 const getAllArticles = (req, res, next) => {
-  Promise.all([fetchArticleCount(), fetchAllArticles(req.query)])
+  Promise.all([fetchArticleCount(req.query), fetchAllArticles(req.query)])
     .then(values => {
       const articles = {};
       articles.total_count = +values[0][0].count;

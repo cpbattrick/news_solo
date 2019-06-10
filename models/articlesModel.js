@@ -23,8 +23,13 @@ const fetchAllArticles = ({ sort_by, order, username, topic, limit, p }) => {
     });
 };
 
-const fetchArticleCount = () => {
-  return connection("articles").count();
+const fetchArticleCount = ({ username, topic }) => {
+  return connection("articles")
+    .modify(query => {
+      if (username) query.where("articles.author", username);
+      if (topic) query.where("articles.topic", topic);
+    })
+    .count();
 };
 
 const fetchArticleById = article_id => {
